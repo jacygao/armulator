@@ -1,6 +1,6 @@
 # Prompt user for paths
-$openApiSpecPath = "./Specifications"
-$outputPath = "./Core/Emulator/Controllers/"
+$openApiSpecPath = "./OpenApi/Specs"
+$outputPath = "./Emu/Controllers/"
 
 # Check if NSwag is installed
 if (-not (Get-Command nswag -ErrorAction SilentlyContinue)) {
