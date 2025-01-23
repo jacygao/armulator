@@ -10,7 +10,9 @@ namespace Emu.Middlewares
         {
             var code = exception switch
             {
-                InvalidSubscriptionIdException => HttpStatusCode.BadRequest,
+                InvalidSubscriptionIdException or
+                InvalidResourceGroupException => HttpStatusCode.BadRequest,
+                NotImplementedException => HttpStatusCode.NotImplemented,
                 _ => HttpStatusCode.InternalServerError,
             };
             return (code, JsonConvert.SerializeObject(
