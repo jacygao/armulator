@@ -1,4 +1,5 @@
 using Emu.Controllers.Compute.ImageController;
+using Emu.Middlewares;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+// Add Custom Middlewares
+app.UseMiddleware<CommonExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

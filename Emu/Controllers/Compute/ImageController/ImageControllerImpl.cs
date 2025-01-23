@@ -1,4 +1,5 @@
-﻿using ImageController;
+﻿using Emu.Utilities.RestApi;
+using ImageController;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 
@@ -22,8 +23,9 @@ namespace Emu.Controllers.Compute.ImageController
 
         public async Task<Image> GetAsync(string resourceGroupName, string imageName, string expand, string api_version, string subscriptionId)
         {
+            if (subscriptionId == "123") { throw new InvalidSubscriptionIdException("invalid subscription id", subscriptionId); }
+
             return null;
-            //throw new NotImplementedException();
         }
 
         public Task<ImageListResult> ListAsync(string api_version, string subscriptionId)
