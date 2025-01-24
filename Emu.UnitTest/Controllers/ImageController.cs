@@ -3,7 +3,7 @@
     public class ImageController
     {
         [Fact]
-        public void Test1()
+        public void TestGetImage()
         {
 
         }

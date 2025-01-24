@@ -1,5 +1,6 @@
 using Emu.Controllers.Compute.ImageController;
 using Emu.Middlewares;
+using Emu.Services.Common;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

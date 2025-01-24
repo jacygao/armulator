@@ -1,4 +1,4 @@
-﻿namespace Emu.Utilities.RestApi
+﻿namespace Emu.Common.RestApi
 {
     public class InvalidResourceGroupException : Exception
     {
