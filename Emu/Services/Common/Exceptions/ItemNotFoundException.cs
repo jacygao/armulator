@@ -1,4 +1,4 @@
-﻿namespace Emu.Services.Exceptions
+﻿namespace Emu.Services.Common.Exceptions
 {
     public class ItemNotFoundException : Exception
     {

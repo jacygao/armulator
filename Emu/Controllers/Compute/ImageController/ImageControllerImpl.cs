@@ -1,20 +1,24 @@
-﻿using Emu.Utilities.RestApi;
+﻿using Emu.Common.RestApi;
+using Emu.Services.Image;
 using ImageController;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Newtonsoft.Json;
 
 namespace Emu.Controllers.Compute.ImageController
 {
     public class ImageControllerImpl : IImagesController
     {
-        public ImageControllerImpl()
+        private readonly IImageService _imageService;
+        public ImageControllerImpl(IImageService imageService)
         {
+            _imageService = imageService;
         }
 
-        public Task<Image> CreateOrUpdateAsync(string resourceGroupName, string imageName, Image parameters, string api_version, string subscriptionId)
+        public async Task<Image> CreateOrUpdateAsync(string resourceGroupName, string imageName, Image parameters, string api_version, string subscriptionId)
         {
             Validate(subscriptionId, resourceGroupName);
-            throw new NotImplementedException();
+
+            await _imageService.CreateImageAsync(imageName, parameters);
+
+            return parameters;
         }
 
         public Task DeleteAsync(string resourceGroupName, string imageName, string api_version, string subscriptionId)

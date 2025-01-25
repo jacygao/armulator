@@ -1,11 +1,22 @@
 using Emu.Controllers.Compute.ImageController;
 using Emu.Middlewares;
 using Emu.Services.Common;
+using Emu.Services.Image;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add Azure Storage
+// Bind the AzureStorage section in appsettings.json to the AzureStorageOptions class
+builder.Services.Configure<AzureStorageOptions>(builder.Configuration.GetSection("AzureStorage"));
+
+// Add AzureBlobStorageService to the DI container
+builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
+
+// Add Domain Services
+builder.Services.AddSingleton<IImageService, ImageService>();
 
 builder.Services.AddScoped<ImageController.IImagesController, ImageControllerImpl>();
 builder.Services.AddControllers();

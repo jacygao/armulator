@@ -2,7 +2,7 @@
 {
     public interface IImageService
     {
-        Task CreateImageAsync(string id);
+        Task CreateImageAsync(string filename, ImageController.Image image);
 
         Task<ImageController.Image> GetImageAsync(string id);
     }

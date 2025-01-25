@@ -1,4 +1,4 @@
-﻿using Emu.Utilities.RestApi;
+﻿using Emu.Common.RestApi;
 using Newtonsoft.Json;
 using System.Net;
 
