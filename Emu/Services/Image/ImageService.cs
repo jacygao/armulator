@@ -1,4 +1,5 @@
-﻿using Emu.Services.Common;
+﻿using Emu.Common.RestApi;
+using Emu.Services.Common;
 using System.Text.Json;
 
 namespace Emu.Services.Image
@@ -28,7 +29,29 @@ namespace Emu.Services.Image
 
         async Task<ImageController.Image> IImageService.GetImageAsync(string filename)
         {
-            throw new NotImplementedException();
+            // Input Validation
+            ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
+
+            // Download Image Metadata
+            try
+            {
+                var stream = await _storage.DownloadFileAsync(containerName, $"{filename}.json");
+                using (var reader = new StreamReader(stream))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    var image = JsonSerializer.Deserialize<ImageController.Image>(json);
+
+                    if (image != null) {
+                        return image;
+                    }
+
+                    throw new ResourceNotFoundException($"image {filename} does not exist");
+                }
+
+            } catch
+            {
+                throw;
+            }
         }
     }
 }

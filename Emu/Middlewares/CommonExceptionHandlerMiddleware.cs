@@ -10,7 +10,7 @@ namespace Emu.Middlewares
         {
             var code = exception switch
             {
-                InvalidSubscriptionIdException or
+                ResourceNotFoundException or
                 InvalidResourceGroupException => HttpStatusCode.BadRequest,
                 NotImplementedException => HttpStatusCode.NotImplemented,
                 _ => HttpStatusCode.InternalServerError,

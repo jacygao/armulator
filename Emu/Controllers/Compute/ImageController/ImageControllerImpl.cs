@@ -17,12 +17,11 @@ namespace Emu.Controllers.Compute.ImageController
         {
             Validate(subscriptionId, resourceGroupName);
 
-            await _imageService.CreateImageAsync(imageName, parameters);
-
-            // Enrich response
-            parameters.Properties = parameters.Properties;
+            // Enrich
             parameters.Location = new AzureLocation(parameters.Location).Name;
             parameters.Name = imageName;
+
+            await _imageService.CreateImageAsync(imageName, parameters);
 
             return parameters;
         }
@@ -36,7 +35,9 @@ namespace Emu.Controllers.Compute.ImageController
         public async Task<Image> GetAsync(string resourceGroupName, string imageName, string expand, string api_version, string subscriptionId)
         {
             Validate(subscriptionId, resourceGroupName);
-            return null;
+
+            return await _imageService.GetImageAsync(imageName);
+        
         }
 
         public Task<ImageListResult> ListAsync(string api_version, string subscriptionId)
