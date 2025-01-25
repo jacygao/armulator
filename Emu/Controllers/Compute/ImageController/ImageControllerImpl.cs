@@ -1,6 +1,7 @@
 ﻿using Emu.Common.RestApi;
 using Emu.Services.Image;
 using ImageController;
+using Azure.Core;
 
 namespace Emu.Controllers.Compute.ImageController
 {
@@ -17,6 +18,11 @@ namespace Emu.Controllers.Compute.ImageController
             Validate(subscriptionId, resourceGroupName);
 
             await _imageService.CreateImageAsync(imageName, parameters);
+
+            // Enrich response
+            parameters.Properties = parameters.Properties;
+            parameters.Location = new AzureLocation(parameters.Location).Name;
+            parameters.Name = imageName;
 
             return parameters;
         }

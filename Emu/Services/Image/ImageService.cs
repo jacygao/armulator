@@ -26,7 +26,7 @@ namespace Emu.Services.Image
             }
         }
 
-        async Task<ImageController.Image> IImageService.GetImageAsync(string id)
+        async Task<ImageController.Image> IImageService.GetImageAsync(string filename)
         {
             throw new NotImplementedException();
         }

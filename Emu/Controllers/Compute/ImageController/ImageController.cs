@@ -20,6 +20,7 @@
 
 namespace ImageController
 {
+    using Emu.Domain.Entities;
     using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
@@ -146,10 +147,10 @@ namespace ImageController
         /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}")]
-        public System.Threading.Tasks.Task<Image> CreateOrUpdate(string resourceGroupName, string imageName, [Microsoft.AspNetCore.Mvc.FromBody] Image parameters, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
+        public async System.Threading.Tasks.Task<Image> CreateOrUpdate(string resourceGroupName, string imageName, [Microsoft.AspNetCore.Mvc.FromBody] Image parameters, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
         {
 
-            return _implementation.CreateOrUpdateAsync(resourceGroupName, imageName, parameters, api_version, subscriptionId);
+            return await _implementation.CreateOrUpdateAsync(resourceGroupName, imageName, parameters, api_version, subscriptionId);
         }
 
         /// <remarks>

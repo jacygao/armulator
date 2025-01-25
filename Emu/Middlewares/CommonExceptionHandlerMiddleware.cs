@@ -18,7 +18,7 @@ namespace Emu.Middlewares
             return (code, JsonConvert.SerializeObject(
                 new CommonErrorResponse(
                     exception.Data["code"]?.ToString() ?? "Unknown", 
-                    exception.Data["message"]?.ToString() ?? "Unknown Error"
+                    exception.Data["message"]?.ToString() ?? exception.Message
                     )
                 ));
         }

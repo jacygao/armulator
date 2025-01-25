@@ -1,6 +1,9 @@
-﻿namespace Emu.Domain.Entities
+﻿using ImageController;
+
+namespace Emu.Domain.Entities
 {
-    public class ImageEntity
+    public class ImageEntity : Resource
     {
+        public string Name { get; set; }
     }
 }
