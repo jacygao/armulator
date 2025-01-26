@@ -1,7 +1,9 @@
 using Emu.Controllers.Compute.ImageController;
+using Emu.Controllers.Compute.VirtualMachineController;
 using Emu.Middlewares;
 using Emu.Services.Common;
 using Emu.Services.Image;
+using Emu.Services.VirtualMachine;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
@@ -18,8 +20,11 @@ builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 
 // Add Domain Services
 builder.Services.AddSingleton<IImageService, ImageService>();
+builder.Services.AddSingleton<IVirtualMachineService, VirtualMachineService>();
 
 builder.Services.AddScoped<ImageController.IImagesController, ImageControllerImpl>();
+builder.Services.AddScoped<VirtualMachineController.IVirtualMachinesController, VirtualMachineControllerImpl>();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

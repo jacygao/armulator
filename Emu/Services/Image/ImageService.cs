@@ -8,8 +8,8 @@ namespace Emu.Services.Image
     {
         private readonly IStorageService _storage;
         private readonly string containerName = "images";
-        public ImageService(IStorageService stroage) { 
-            _storage = stroage;
+        public ImageService(IStorageService stroageService) { 
+            _storage = stroageService;
         }
 
         async Task IImageService.CreateImageAsync(string filename, ImageController.Image image)
