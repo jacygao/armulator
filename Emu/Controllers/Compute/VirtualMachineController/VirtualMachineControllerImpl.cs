@@ -1,6 +1,6 @@
 using Emu.Common.Validators;
 using Emu.Services.VirtualMachine;
-using ImageController;
+using System.Reflection.Metadata;
 using VirtualMachineController;
 
 namespace Emu.Controllers.Compute.VirtualMachineController
@@ -36,11 +36,45 @@ namespace Emu.Controllers.Compute.VirtualMachineController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
+            // enrich
+            parameters.Id = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}";
+            parameters.Type = "Microsoft.Compute/virtualMachines";
+            parameters.Name = vmName;
+
+            // TODO: implement Provision State Transitions
+            parameters.Properties.ProvisioningState = VirtualMachineConstants.ProvisioningStateCreating;
+
+            // OS Profile
+            if (parameters.Properties.OsProfile.WindowsConfiguration == null)
+            {
+                parameters.Properties.OsProfile.WindowsConfiguration = new WindowsConfiguration
+                {
+                    ProvisionVMAgent = true,
+                    EnableAutomaticUpdates = true,
+                };
+            }
+
+            if (parameters.Properties.OsProfile.Secrets == null)
+            {
+                parameters.Properties.OsProfile.Secrets = [];
+            }
+
+            // Network Profile
+
+            // Storage Profile
+            if (parameters.Properties.StorageProfile.DataDisks == null)
+            {
+                parameters.Properties.StorageProfile.DataDisks = [];
+            }
+
+
             return await _virtualMachineService.CreateOrUpdateAsync(resourceGroupName, vmName, parameters);
         }
 
         public Task DeallocateAsync(string resourceGroupName, string vmName, bool? hibernate, string api_version, string subscriptionId)
         {
+            CommonValidators.Validate(subscriptionId, resourceGroupName);
+
             throw new NotImplementedException();
         }
 
@@ -56,6 +90,8 @@ namespace Emu.Controllers.Compute.VirtualMachineController
 
         public Task<VirtualMachine> GetAsync(string resourceGroupName, string vmName, _expand? expand, string api_version, string subscriptionId)
         {
+            CommonValidators.Validate(subscriptionId, resourceGroupName);
+
             throw new NotImplementedException();
         }
 

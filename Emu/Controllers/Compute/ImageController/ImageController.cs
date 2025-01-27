@@ -20,7 +20,6 @@
 
 namespace ImageController
 {
-    using Emu.Domain.Entities;
     using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 

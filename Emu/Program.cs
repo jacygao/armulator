@@ -4,6 +4,7 @@ using Emu.Middlewares;
 using Emu.Services.Common;
 using Emu.Services.Image;
 using Emu.Services.VirtualMachine;
+using Newtonsoft.Json;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
@@ -30,6 +31,7 @@ builder.Services.AddControllers()
     {
         // Required for supporting enum conversion
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

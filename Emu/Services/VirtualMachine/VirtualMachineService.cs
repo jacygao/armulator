@@ -25,7 +25,7 @@ namespace Emu.Services.VirtualMachine
 			var json = JsonSerializer.Serialize(parameters);
 			using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
 			{
-				await _storage.UploadFileAsync($"{resourceGroup}/{containerName}", $"{vmName}.json", stream);
+				await _storage.UploadFileAsync($"{containerName}", $"{vmName}.json", stream);
 
 			}
 
