@@ -1,5 +1,6 @@
 namespace Emu.Services.VirtualMachine
 {
+    using Emu.Common.RestApi;
     using Emu.Services.Common;
     using System.Text.Json;
     using System.Threading.Tasks;
@@ -43,9 +44,33 @@ namespace Emu.Services.VirtualMachine
             throw new NotImplementedException();
         }
 
-        public Task<VirtualMachine> GetAsync(string resourceGroupName, string vmName)
+        public async Task<VirtualMachine> GetAsync(string resourceGroupName, string vmName)
         {
-            throw new NotImplementedException();
+            // Input Validation
+            ArgumentException.ThrowIfNullOrEmpty(vmName, nameof(vmName));
+
+            // Download vm Metadata
+            try
+            {
+                var stream = await _storage.DownloadFileAsync(containerName, $"{vmName}.json");
+                using (var reader = new StreamReader(stream))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    var vm = JsonSerializer.Deserialize<VirtualMachine>(json);
+
+                    if (vm != null)
+                    {
+                        return vm;
+                    }
+
+                    throw new ResourceNotFoundException($"image {vmName} does not exist");
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public Task PowerOffAsync(string resourceGroupName, string vmName)

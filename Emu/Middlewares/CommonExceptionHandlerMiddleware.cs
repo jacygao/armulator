@@ -11,7 +11,8 @@ namespace Emu.Middlewares
             var code = exception switch
             {
                 ResourceNotFoundException or
-                InvalidResourceGroupException => HttpStatusCode.BadRequest,
+                InvalidResourceGroupException or
+                InvalidInputException => HttpStatusCode.BadRequest,
                 NotImplementedException => HttpStatusCode.NotImplemented,
                 _ => HttpStatusCode.InternalServerError,
             };
