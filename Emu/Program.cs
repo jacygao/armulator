@@ -22,8 +22,8 @@ builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 builder.Services.AddSingleton<IImageService, ImageService>();
 builder.Services.AddSingleton<IVirtualMachineService, VirtualMachineService>();
 
-builder.Services.AddScoped<ImageController.IImagesController, ImageControllerImpl>();
-builder.Services.AddScoped<VirtualMachineController.IVirtualMachinesController, VirtualMachineControllerImpl>();
+builder.Services.AddScoped<ImageController.IImagesController, ImageHandler>();
+builder.Services.AddScoped<VirtualMachineController.IVirtualMachinesController, VirtualMachineHandler>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

@@ -6,11 +6,11 @@ using Emu.Common.Validators;
 
 namespace Emu.Controllers.Compute.ImageController
 {
-    public class ImageControllerImpl : IImagesController
+    public class ImageHandler : IImagesController
     {
         private readonly IImageService _imageService;
 
-        public ImageControllerImpl(IImageService imageService)
+        public ImageHandler(IImageService imageService)
         {
             _imageService = imageService;
         }

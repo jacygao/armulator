@@ -418,7 +418,7 @@ namespace VirtualMachineController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<VirtualMachineListResult> ListAsync(string resourceGroupName, string filter, $expand? expand, string api_version, string subscriptionId);
+        System.Threading.Tasks.Task<VirtualMachineListResult> ListAsync(string resourceGroupName, string filter, _expand expand, string api_version, string subscriptionId);
 
         /// <remarks>
         /// Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
@@ -436,7 +436,7 @@ namespace VirtualMachineController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, $expand2? expand);
+        System.Threading.Tasks.Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, _expand? expand);
 
         /// <remarks>
         /// Lists all available virtual machine sizes to which the specified virtual machine can be resized.

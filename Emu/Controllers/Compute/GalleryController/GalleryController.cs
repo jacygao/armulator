@@ -490,7 +490,7 @@ namespace GalleryController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<GalleryImageVersion> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string galleryImageName, string galleryImageVersionName, $expand? expand, string api_version);
+        System.Threading.Tasks.Task<GalleryImageVersion> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string galleryImageName, string galleryImageVersionName, _expand? expand, string api_version);
 
         /// <remarks>
         /// Delete a gallery image version.
@@ -591,7 +591,7 @@ namespace GalleryController
         /// <param name="api_version">Client Api Version.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}")]
-        public System.Threading.Tasks.Task<GalleryImageVersion> Get(string subscriptionId, string resourceGroupName, string galleryName, string galleryImageName, string galleryImageVersionName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] $expand? expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
+        public System.Threading.Tasks.Task<GalleryImageVersion> Get(string subscriptionId, string resourceGroupName, string galleryName, string galleryImageName, string galleryImageVersionName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] _expand? expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
         {
 
             return _implementation.GetAsync(subscriptionId, resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, api_version);
@@ -892,7 +892,7 @@ namespace GalleryController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<GalleryApplicationVersion> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string galleryApplicationName, string galleryApplicationVersionName, $expand2? expand, string api_version);
+        System.Threading.Tasks.Task<GalleryApplicationVersion> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string galleryApplicationName, string galleryApplicationVersionName, _expand? expand, string api_version);
 
         /// <remarks>
         /// Delete a gallery Application Version.
@@ -993,7 +993,7 @@ namespace GalleryController
         /// <param name="api_version">Client Api Version.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")]
-        public System.Threading.Tasks.Task<GalleryApplicationVersion> Get(string subscriptionId, string resourceGroupName, string galleryName, string galleryApplicationName, string galleryApplicationVersionName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] $expand2? expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
+        public System.Threading.Tasks.Task<GalleryApplicationVersion> Get(string subscriptionId, string resourceGroupName, string galleryName, string galleryApplicationName, string galleryApplicationVersionName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] _expand? expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
         {
 
             return _implementation.GetAsync(subscriptionId, resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, expand, api_version);
@@ -3872,22 +3872,7 @@ namespace GalleryController
     /// The expand expression to apply on the operation.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum $expand
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"ReplicationStatus")]
-        ReplicationStatus = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"UefiSettings")]
-        UefiSettings = 1,
-
-    }
-
-    /// <summary>
-    /// The expand expression to apply on the operation.
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public enum $expand2
+    public enum _expand2
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"ReplicationStatus")]

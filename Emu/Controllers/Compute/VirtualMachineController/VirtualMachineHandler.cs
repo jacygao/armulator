@@ -6,10 +6,10 @@ using static Emu.Services.VirtualMachine.Extensions.VirtualMachineExtensions;
 
 namespace Emu.Controllers.Compute.VirtualMachineController
 {
-    public class VirtualMachineControllerImpl : IVirtualMachinesController
+    public class VirtualMachineHandler : IVirtualMachinesController
     {
         private readonly IVirtualMachineService _virtualMachineService;
-        public VirtualMachineControllerImpl(IVirtualMachineService virtualMachineService) { 
+        public VirtualMachineHandler(IVirtualMachineService virtualMachineService) { 
             _virtualMachineService = virtualMachineService;
         }
 
@@ -111,7 +111,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
             throw new NotImplementedException();
         }
 
-        public Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, _expand expand)
+        public Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, _expand? expand)
         {
             throw new NotImplementedException();
         }
