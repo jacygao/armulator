@@ -20,7 +20,6 @@
 
 namespace VirtualMachineController
 {
-    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -126,7 +125,7 @@ namespace VirtualMachineController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    [ApiExplorerSettings(GroupName = "Compute/VirtualMachineExtensions")]
+
     public partial class VirtualMachineExtensionsController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IVirtualMachineExtensionsController _implementation;
@@ -419,7 +418,7 @@ namespace VirtualMachineController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<VirtualMachineListResult> ListAsync(string resourceGroupName, string filter, _expand expand, string api_version, string subscriptionId);
+        System.Threading.Tasks.Task<VirtualMachineListResult> ListAsync(string resourceGroupName, string filter, $expand? expand, string api_version, string subscriptionId);
 
         /// <remarks>
         /// Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines.
@@ -437,7 +436,7 @@ namespace VirtualMachineController
 
         /// <returns>OK</returns>
 
-        System.Threading.Tasks.Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, _expand expand);
+        System.Threading.Tasks.Task<VirtualMachineListResult> ListAllAsync(string api_version, string subscriptionId, string statusOnly, string filter, $expand2? expand);
 
         /// <remarks>
         /// Lists all available virtual machine sizes to which the specified virtual machine can be resized.
@@ -660,7 +659,7 @@ namespace VirtualMachineController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    [ApiExplorerSettings(GroupName = "Compute/VirtualMachines")]
+
     public partial class VirtualMachinesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IVirtualMachinesController _implementation;
@@ -839,7 +838,7 @@ namespace VirtualMachineController
         /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines")]
-        public System.Threading.Tasks.Task<VirtualMachineListResult> List(string resourceGroupName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$filter")] string filter, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] _expand expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
+        public System.Threading.Tasks.Task<VirtualMachineListResult> List(string resourceGroupName, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$filter")] string filter, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] $expand? expand, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
         {
 
             return _implementation.ListAsync(resourceGroupName, filter, expand, api_version, subscriptionId);
@@ -855,7 +854,7 @@ namespace VirtualMachineController
         /// <param name="expand">The expand expression to apply on operation. 'instanceView' enables fetching run time status of all Virtual Machines, this can only be specified if a valid $filter option is specified</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines")]
-        public System.Threading.Tasks.Task<VirtualMachineListResult> ListAll([Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId, [Microsoft.AspNetCore.Mvc.FromQuery] string statusOnly, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$filter")] string filter, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] _expand expand)
+        public System.Threading.Tasks.Task<VirtualMachineListResult> ListAll([Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId, [Microsoft.AspNetCore.Mvc.FromQuery] string statusOnly, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$filter")] string filter, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "$expand")] $expand2? expand)
         {
 
             return _implementation.ListAllAsync(api_version, subscriptionId, statusOnly, filter, expand);
@@ -3776,6 +3775,30 @@ namespace VirtualMachineController
 
         [System.Runtime.Serialization.EnumMember(Value = @"userData")]
         UserData = 1,
+
+    }
+
+    /// <summary>
+    /// The expand expression to apply on operation. 'instanceView' enables fetching run time status of all Virtual Machines, this can only be specified if a valid $filter option is specified
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum $expand
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"instanceView")]
+        InstanceView = 0,
+
+    }
+
+    /// <summary>
+    /// The expand expression to apply on operation. 'instanceView' enables fetching run time status of all Virtual Machines, this can only be specified if a valid $filter option is specified
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum $expand2
+    {
+
+        [System.Runtime.Serialization.EnumMember(Value = @"instanceView")]
+        InstanceView = 0,
 
     }
 

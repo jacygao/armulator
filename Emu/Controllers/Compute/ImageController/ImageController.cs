@@ -20,7 +20,6 @@
 
 namespace ImageController
 {
-    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -126,7 +125,7 @@ namespace ImageController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    [ApiExplorerSettings(GroupName = "Compute/Images")]
+
     public partial class ImagesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IImagesController _implementation;
@@ -146,10 +145,10 @@ namespace ImageController
         /// <param name="subscriptionId">Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.</param>
         /// <returns>OK</returns>
         [Microsoft.AspNetCore.Mvc.HttpPut, Microsoft.AspNetCore.Mvc.Route("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}")]
-        public async System.Threading.Tasks.Task<Image> CreateOrUpdate(string resourceGroupName, string imageName, [Microsoft.AspNetCore.Mvc.FromBody] Image parameters, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
+        public System.Threading.Tasks.Task<Image> CreateOrUpdate(string resourceGroupName, string imageName, [Microsoft.AspNetCore.Mvc.FromBody] Image parameters, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version, string subscriptionId)
         {
 
-            return await _implementation.CreateOrUpdateAsync(resourceGroupName, imageName, parameters, api_version, subscriptionId);
+            return _implementation.CreateOrUpdateAsync(resourceGroupName, imageName, parameters, api_version, subscriptionId);
         }
 
         /// <remarks>
