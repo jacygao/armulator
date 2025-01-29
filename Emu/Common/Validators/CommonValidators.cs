@@ -7,14 +7,14 @@ namespace Emu.Common.Validators
         // TODO: consider implementing decorators
         public static void Validate(string subscriptionId, string resourceGroupName)
         {
-            if (subscriptionId == "123") { throw new InvalidSubscriptionIdException("invalid subscription id", subscriptionId); }
+            if (!Guid.TryParse(subscriptionId, out _)) { throw new InvalidSubscriptionIdException("invalid subscription id", subscriptionId); }
 
             if (resourceGroupName == "unknown") { throw new InvalidResourceGroupException("invalid resource group", resourceGroupName); }
         }
 
         public static void ValidateSubscription(string subscriptionId)
         {
-            if (subscriptionId == "123") { throw new InvalidSubscriptionIdException("invalid subscription id", subscriptionId); }
+            if (!Guid.TryParse(subscriptionId, out _)) { throw new InvalidSubscriptionIdException("invalid subscription id", subscriptionId); }
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Emu.Controllers.Compute.ImageController
             parameters.Location = new AzureLocation(parameters.Location).Name;
             parameters.Name = imageName;
 
-            await _imageService.CreateImageAsync(imageName, parameters);
+            await _imageService.CreateImageAsync(subscriptionId, resourceGroupName, imageName, parameters);
 
             return parameters;
         }
@@ -38,15 +38,20 @@ namespace Emu.Controllers.Compute.ImageController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
-            return await _imageService.GetImageAsync(imageName);
+            return await _imageService.GetImageAsync(subscriptionId, resourceGroupName, imageName);
         
         }
 
-        public Task<ImageListResult> ListAsync(string api_version, string subscriptionId)
+        public async Task<ImageListResult> ListAsync(string api_version, string subscriptionId)
         {
             CommonValidators.ValidateSubscription(subscriptionId);
+            var resp = new ImageListResult
+            {
+                Value = await _imageService.ListImagesAsync(subscriptionId)
+            };
+            // TODO: Support skip token / nextlink
 
-            throw new NotImplementedException();
+            return resp;
         }
 
         public Task<ImageListResult> ListByResourceGroupAsync(string resourceGroupName, string api_version, string subscriptionId)

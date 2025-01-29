@@ -1,6 +1,9 @@
-﻿using Emu.Common.RestApi;
+﻿using Azure.Storage.Blobs.Models;
+using Emu.Common.RestApi;
 using Emu.Services.Common;
+using ImageController;
 using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Emu.Services.Image
 {
@@ -8,11 +11,11 @@ namespace Emu.Services.Image
     {
         private readonly IStorageService _storage;
         private readonly string containerName = "images";
-        public ImageService(IStorageService stroageService) { 
+        public ImageService(IStorageService stroageService) {
             _storage = stroageService;
         }
 
-        async Task IImageService.CreateImageAsync(string filename, ImageController.Image image)
+        async Task IImageService.CreateImageAsync(string subscriptionId, string resourceGroup, string filename, ImageController.Image image)
         {
             // Input Validation
             ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
@@ -22,12 +25,12 @@ namespace Emu.Services.Image
             var json = JsonSerializer.Serialize(image);
             using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
             {
-                await _storage.UploadFileAsync(containerName, $"{filename}.json", stream);
+                await _storage.UploadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json", stream);
 
             }
         }
 
-        async Task<ImageController.Image> IImageService.GetImageAsync(string filename)
+        async Task<ImageController.Image> IImageService.GetImageAsync(string subscriptionId, string resourceGroup, string filename)
         {
             // Input Validation
             ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
@@ -35,7 +38,7 @@ namespace Emu.Services.Image
             // Download Image Metadata
             try
             {
-                var stream = await _storage.DownloadFileAsync(containerName, $"{filename}.json");
+                var stream = await _storage.DownloadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json");
                 using (var reader = new StreamReader(stream))
                 {
                     var json = await reader.ReadToEndAsync();
@@ -51,6 +54,20 @@ namespace Emu.Services.Image
             } catch
             {
                 throw;
+            }
+        }
+
+        async Task<List<ImageController.Image>> IImageService.ListImagesAsync(string subscriptionId)
+        {
+            return await _storage.ListFilesContentRecursiveAsync(containerName, subscriptionId, ConvertToCustomFileDataAsync);
+        }
+
+        private async Task<ImageController.Image> ConvertToCustomFileDataAsync(string blobName, Stream content)
+        {
+            using (content)
+            {
+                var image = await JsonSerializer.DeserializeAsync<ImageController.Image>(content);
+                return image;
             }
         }
     }

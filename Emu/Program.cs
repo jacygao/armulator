@@ -4,7 +4,6 @@ using Emu.Middlewares;
 using Emu.Services.Common;
 using Emu.Services.Image;
 using Emu.Services.VirtualMachine;
-using Newtonsoft.Json;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
