@@ -53,18 +53,16 @@ namespace Emu.Services.VirtualMachine
             try
             {
                 var stream = await _storage.DownloadFileAsync(containerName, $"{vmName}.json");
-                using (var reader = new StreamReader(stream))
+                using var reader = new StreamReader(stream);
+                var json = await reader.ReadToEndAsync();
+                var vm = JsonSerializer.Deserialize<VirtualMachine>(json);
+
+                if (vm != null)
                 {
-                    var json = await reader.ReadToEndAsync();
-                    var vm = JsonSerializer.Deserialize<VirtualMachine>(json);
-
-                    if (vm != null)
-                    {
-                        return vm;
-                    }
-
-                    throw new ResourceNotFoundException($"image {vmName} does not exist");
+                    return vm;
                 }
+
+                throw new ResourceNotFoundException($"image {vmName} does not exist");
 
             }
             catch

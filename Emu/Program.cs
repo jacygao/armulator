@@ -1,7 +1,9 @@
+using Emu.Controllers.Compute.GalleryController;
 using Emu.Controllers.Compute.ImageController;
 using Emu.Controllers.Compute.VirtualMachineController;
 using Emu.Middlewares;
 using Emu.Services.Common;
+using Emu.Services.Gallery;
 using Emu.Services.Image;
 using Emu.Services.VirtualMachine;
 using Scalar.AspNetCore;
@@ -19,8 +21,13 @@ builder.Services.Configure<AzureStorageOptions>(builder.Configuration.GetSection
 builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
 
 // Add Domain Services
+builder.Services.AddSingleton<IGalleryService, GalleryService>();
 builder.Services.AddSingleton<IImageService, ImageService>();
 builder.Services.AddSingleton<IVirtualMachineService, VirtualMachineService>();
+
+builder.Services.AddScoped<GalleryController.IGalleriesController, GalleryHandler>();
+builder.Services.AddScoped<GalleryController.IGalleryImagesController, GalleryImageHandler>();
+builder.Services.AddScoped<GalleryController.IGalleryImageVersionsController, GalleryImageVersionHandler>();
 
 builder.Services.AddScoped<ImageController.IImagesController, ImageHandler>();
 builder.Services.AddScoped<VirtualMachineController.IVirtualMachinesController, VirtualMachineHandler>();

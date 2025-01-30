@@ -23,11 +23,8 @@ namespace Emu.Services.Image
 
             // Serialize the Image object to JSON
             var json = JsonSerializer.Serialize(image);
-            using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
-            {
-                await _storage.UploadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json", stream);
-
-            }
+            using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+            await _storage.UploadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json", stream);
         }
 
         async Task<ImageController.Image> IImageService.GetImageAsync(string subscriptionId, string resourceGroup, string filename)

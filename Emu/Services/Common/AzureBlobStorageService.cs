@@ -43,6 +43,13 @@
             await blobClient.DeleteIfExistsAsync();
         }
 
+        public async Task<bool> ExistFile(string containerName, string fileName)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            var blobClient = containerClient.GetBlobClient(fileName);
+            return await blobClient.ExistsAsync();
+        }
+
         public async Task<List<T>> ListFilesContentRecursiveAsync<T>(string containerName, string prefix, Func<string, Stream, Task<T>> converter)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
