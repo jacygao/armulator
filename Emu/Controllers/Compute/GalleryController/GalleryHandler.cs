@@ -20,14 +20,23 @@ namespace Emu.Controllers.Compute.GalleryController
             {
                 gallery.Properties.Identifier = new GalleryIdentifier
                 {
-                    UniqueName = $"{subscriptionId}-{galleryName}"
+                    UniqueName = $"{subscriptionId}-{galleryName.ToUpper()}"
                 };
             } else
             {
                 gallery.Properties.Identifier.UniqueName = $"{subscriptionId}-{galleryName}";
             }
 
+            if (gallery.Properties.SoftDeletePolicy == null)
+            {
+                gallery.Properties.SoftDeletePolicy = new SoftDeletePolicy
+                {
+                    IsSoftDeleteEnabled = false
+                };
+            }
+
             gallery.Name = galleryName;
+            gallery.Type = "Microsoft.Compute/galleries";
 
             var op = await _galleryService.UpsertGallery(subscriptionId, resourceGroupName, galleryName, gallery);
 
