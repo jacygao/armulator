@@ -10,7 +10,7 @@ namespace Emu.Services.Gallery
     {
         private readonly IStorageService _storage;
         private readonly string GalleryContainerName = "galleries";
-        private readonly string GalleryImageContainerName = "galleryImages";
+        private readonly string GalleryImageContainerName = "galleryimages";
 
         public GalleryService(IStorageService stroageService) { 
             _storage = stroageService;

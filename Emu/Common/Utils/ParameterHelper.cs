@@ -10,9 +10,13 @@ namespace Emu.Common.Utils
         public static readonly string ResourceTypeGalleryImage = "galleries/images";
         public static readonly string ResourceTypeVirtualMachine = "virtualMachines";
 
-        public static string GetComputeResourceId(string subscriptionId, string resourceGroupName, string resourceType, string resourceName)
+        public static string GetComputeResourceId(string subscriptionId, string resourceGroupName, params string[] additionalParams)
         {
-            return $"/subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/Microsoft.Compute/{resourceType}/{resourceName}";
+            var allParams = new List<string> { "/subscriptions", subscriptionId, "resourceGroup", resourceGroupName };
+            allParams.AddRange(additionalParams);
+
+            // Join the parameters with "/"
+            return string.Join("/", allParams);
         }
     }
 }

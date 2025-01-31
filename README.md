@@ -1,11 +1,17 @@
-# Azure Resource Manager Emulator
+# Azure Resource Manager Emulator For Compute
 
-## V1 Supported APIs
+## Supported APIs
 	- Images
 		Create Or Update
 		Get
 		List
-	- Gallery Image
+	- Galleries
+		- Create Or Update Gallery
+		- Get Gallery
+	- Gallery Images
+		- Create Or Update Gallery Image
+		- Get Gallery Image
+	- Gallery Image Versions
 		- Create Or Update Gallery Image Version
 		- Get Gallery Image Version
 		- Get Gallery Image Versions
@@ -15,6 +21,6 @@
 		Power Off
 		Deallocate (Hibernate)
 		Get Virtual Machine
-	- NetWork Interface
+	- NetWork Interfaces
 		Create Virtual Network
-	- Disk
+	- Disks

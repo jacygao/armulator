@@ -19,7 +19,7 @@ namespace Emu.Controllers.Compute.GalleryController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
-            galleryImage.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeGalleryImage, galleryName);
+            galleryImage.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeGallery, galleryName, ParameterHelper.ResourceTypeGalleryImage, galleryImageName);
             galleryImage.Type = $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeGalleryImage}";
             galleryImage.Name = galleryImageName;
 
@@ -44,7 +44,8 @@ namespace Emu.Controllers.Compute.GalleryController
             }
             catch (FileNotFoundException ex)
             {
-                throw new ParentResourceNotFoundException(ex.Message, "galleries/images", galleryImage.Id);
+                var galleryId = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeGallery, galleryName);
+                throw new ParentResourceNotFoundException(ex.Message, "galleries/images", galleryId);
             }
         }
 
