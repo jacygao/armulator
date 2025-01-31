@@ -6,17 +6,17 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Emu/Emu.csproj", "."]
-RUN dotnet restore ".Emu/Emu.csproj"
+COPY ["Emu.csproj", "."]
+RUN dotnet restore "./Emu.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build ".Emu/Emu.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Emu.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish ".Emu/Emu.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Emu.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Emuarm.dll"]
+ENTRYPOINT ["dotnet", "Emu.dll"]

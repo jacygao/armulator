@@ -12,6 +12,7 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHealthChecks();
 
 // Add Azure Storage
 // Bind the AzureStorage section in appsettings.json to the AzureStorageOptions class
@@ -45,6 +46,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/healthz");
 
 // Add Custom Middlewares
 app.UseMiddleware<CommonExceptionHandlerMiddleware>();
