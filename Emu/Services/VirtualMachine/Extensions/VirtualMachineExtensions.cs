@@ -21,6 +21,11 @@ namespace Emu.Services.VirtualMachine.Extensions
             {
                 throw new InvalidInputException(Constants.InvalidParameter.message, Constants.InvalidParameter.substatus);
             }
+
+            if (vm.Properties.NetworkProfile == null)
+            {
+                throw new InvalidInputException(Constants.InvalidParameter.message, Constants.InvalidParameter.substatus);
+            }
         }
     }
 }

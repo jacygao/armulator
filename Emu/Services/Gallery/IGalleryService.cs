@@ -10,8 +10,10 @@ namespace Emu.Services.Gallery
 
         Task<GalleryOperationType> UpsertGalleryImage(string subscriptionId, string resourceGroup, string galleryName, string imageName, GalleryImage image);
 
-        Task<GalleryController.GalleryImage> GetGalleryImage(string subscriptionId, string resourceGroup, string name);
+        Task<GalleryController.GalleryImage> GetGalleryImage(string subscriptionId, string resourceGroup, string galleryName, string imageName);
 
-        Task<GalleryController.GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string name, string version);
+        Task<GalleryOperationType> UpsertGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string imageName, string version, GalleryImageVersion imageVersion);
+
+        Task<GalleryController.GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string name, string version);
     }
 }

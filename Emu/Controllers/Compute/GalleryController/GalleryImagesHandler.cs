@@ -60,7 +60,7 @@ namespace Emu.Controllers.Compute.GalleryController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
-            throw new NotImplementedException();
+            return _galleryService.GetGalleryImage(subscriptionId, resourceGroupName, galleryName, galleryImageName);
         }
 
         public Task<GalleryImageList> ListByGalleryAsync(string subscriptionId, string resourceGroupName, string galleryName, string api_version)

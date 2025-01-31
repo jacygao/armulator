@@ -11,6 +11,7 @@ namespace Emu.Services.Gallery
         private readonly IStorageService _storage;
         private readonly string GalleryContainerName = "galleries";
         private readonly string GalleryImageContainerName = "galleryimages";
+        private readonly string GalleryImageVersionContainerName = "galleryimageversions";
 
         public GalleryService(IStorageService stroageService) { 
             _storage = stroageService;
@@ -41,16 +42,38 @@ namespace Emu.Services.Gallery
             {
                 throw;
             }
-
-            throw new NotImplementedException();
         }
 
-        public Task<GalleryImage> GetGalleryImage(string subscriptionId, string resourceGroup, string name)
+        public async Task<GalleryImage> GetGalleryImage(string subscriptionId, string resourceGroup, string galleryName, string imageName)
         {
+            ArgumentException.ThrowIfNullOrEmpty(galleryName, nameof(galleryName));
+            ArgumentException.ThrowIfNullOrEmpty(imageName, nameof(imageName));
+
+            // Download Image Metadata
+            try
+            {
+                var stream = await _storage.DownloadFileAsync(GalleryImageContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}.json");
+                using var reader = new StreamReader(stream);
+                var json = await reader.ReadToEndAsync();
+                var image = JsonSerializer.Deserialize<GalleryController.GalleryImage>(json);
+
+                if (image != null)
+                {
+                    return image;
+                }
+
+                throw new ResourceNotFoundException($"image {imageName} does not exist");
+
+            }
+            catch
+            {
+                throw;
+            }
+
             throw new NotImplementedException();
         }
 
-        public Task<GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string name, string version)
+        public Task<GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string name, string version)
         {
             throw new NotImplementedException();
         }
@@ -102,6 +125,35 @@ namespace Emu.Services.Gallery
             var json = JsonSerializer.Serialize(image);
             using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
             await _storage.UploadFileAsync(GalleryImageContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}.json", stream);
+
+            return op;
+        }
+
+        public async Task<GalleryOperationType> UpsertGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string imageName, string version, GalleryImageVersion imageVersion)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(galleryName, nameof(galleryName));
+            ArgumentException.ThrowIfNullOrEmpty(imageName, nameof(imageName));
+            ArgumentNullException.ThrowIfNull(version, nameof(version));
+
+            // Validate if Gallery Image exists
+            if (!await _storage.ExistFile(GalleryImageContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}.json"))
+            {
+                throw new FileNotFoundException($"GalleryImage {imageName} can not be found.");
+            }
+
+            var op = GalleryOperationType.Create;
+            // Check if image already exists, if yes it is an update request.
+            if (await _storage.ExistFile(GalleryImageVersionContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}/{version}.json"))
+            {
+                op = GalleryOperationType.Update;
+            }
+
+            imageVersion.Properties.ProvisioningState = GalleryProvisioningState.Succeeded;
+
+            // Serialize the Image object to JSON
+            var json = JsonSerializer.Serialize(imageVersion);
+            using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+            await _storage.UploadFileAsync(GalleryImageContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}/{version}.json", stream);
 
             return op;
         }
