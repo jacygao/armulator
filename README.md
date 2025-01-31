@@ -1,5 +1,7 @@
 # Azure Resource Manager Emulator For Compute
 
+## Getting Started in 5 minutes
+
 ## Supported APIs
 	- Images
 		Create Or Update

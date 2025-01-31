@@ -1,0 +1,30 @@
+name: emuarm
+services:
+  emulator:
+    container_name: "arm-emulator"
+    image: "jacygao/emuarm:latest"
+    volumes:
+      - "${CONFIG_PATH}:/Eventhubs_Emulator/ConfigFiles/Config.json"
+    ports:
+      - "8000:8080"
+    environment:
+      METADATA_SERVER: azurite
+    depends_on:
+      - azurite
+    networks:
+      arm-emulator:
+        aliases:
+          - "arm-emulator"
+  azurite:
+    container_name: "azurite"
+    image: "mcr.microsoft.com/azure-storage/azurite:latest"
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    networks:
+      eh-emulator:
+        aliases:
+          - "azurite"
+networks:
+  arm-emulator:
