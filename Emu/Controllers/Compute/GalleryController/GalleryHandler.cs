@@ -1,3 +1,4 @@
+using Emu.Common.Utils;
 using Emu.Common.Validators;
 using Emu.Services.Gallery;
 using GalleryController;
@@ -36,7 +37,8 @@ namespace Emu.Controllers.Compute.GalleryController
             }
 
             gallery.Name = galleryName;
-            gallery.Type = "Microsoft.Compute/galleries";
+            gallery.Type = $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeGallery}";
+            gallery.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeGallery, galleryName);
 
             var op = await _galleryService.UpsertGallery(subscriptionId, resourceGroupName, galleryName, gallery);
 
@@ -60,9 +62,12 @@ namespace Emu.Controllers.Compute.GalleryController
             throw new NotImplementedException();
         }
 
-        public Task<Gallery> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string api_version, _select? select, _expand? expand)
+        public async Task<Gallery> GetAsync(string subscriptionId, string resourceGroupName, string galleryName, string api_version, _select? select, _expand? expand)
         {
-            throw new NotImplementedException();
+            // TODO: implement select and expand filters
+            CommonValidators.Validate(subscriptionId, resourceGroupName);
+
+            return await _galleryService.GetGallery(subscriptionId, resourceGroupName, galleryName);
         }
 
         public Task<GalleryList> ListAsync(string subscriptionId, string api_version)

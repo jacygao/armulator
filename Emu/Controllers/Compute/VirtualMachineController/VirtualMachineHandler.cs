@@ -1,3 +1,4 @@
+using Emu.Common.Utils;
 using Emu.Common.Validators;
 using Emu.Services.VirtualMachine;
 using VirtualMachineController;
@@ -39,7 +40,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
             parameters.ValidateAsInput();
 
             // enrich
-            parameters.Id = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}";
+            parameters.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeVirtualMachine, vmName);
             parameters.Type = "Microsoft.Compute/virtualMachines";
             parameters.Name = vmName;
 
