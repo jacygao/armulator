@@ -1,6 +1,8 @@
 # Azure Resource Manager Emulator For Compute
 
-## Getting Started in 5 minutes
+## Getting Started
+
+### Create your first Virtual Machine in 5 mins
 
 ## Supported APIs
 	- Images
@@ -24,5 +26,7 @@
 		Deallocate (Hibernate)
 		Get Virtual Machine
 	- NetWork Interfaces
-		Create Virtual Network
+		- Create a Virtual Network
+		- Create a Public IP Address
+		- Create a Network Interface
 	- Disks
