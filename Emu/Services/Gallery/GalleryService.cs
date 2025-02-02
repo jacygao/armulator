@@ -69,13 +69,34 @@ namespace Emu.Services.Gallery
             {
                 throw;
             }
-
-            throw new NotImplementedException();
         }
 
-        public Task<GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string name, string version)
+        public async Task<GalleryImageVersion> GetGalleryImageVersion(string subscriptionId, string resourceGroup, string galleryName, string imageName, string version)
         {
-            throw new NotImplementedException();
+            ArgumentException.ThrowIfNullOrEmpty(galleryName, nameof(galleryName));
+            ArgumentException.ThrowIfNullOrEmpty(imageName, nameof(imageName));
+            ArgumentException.ThrowIfNullOrEmpty(version, nameof(version));
+
+            // Download Image Metadata
+            try
+            {
+                var stream = await _storage.DownloadFileAsync(GalleryImageVersionContainerName, $"{subscriptionId}/{resourceGroup}/{galleryName}/{imageName}/{version}.json");
+                using var reader = new StreamReader(stream);
+                var json = await reader.ReadToEndAsync();
+                var imageVersion = JsonSerializer.Deserialize<GalleryController.GalleryImageVersion>(json);
+
+                if (imageVersion != null)
+                {
+                    return imageVersion;
+                }
+
+                throw new ResourceNotFoundException($"image version {version} does not exist");
+
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<GalleryOperationType> UpsertGallery(string subscriptionId, string resourceGroup, string name, GalleryController.Gallery gallery)
