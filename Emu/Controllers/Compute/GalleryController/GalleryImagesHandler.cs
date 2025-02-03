@@ -9,10 +9,10 @@ namespace Emu.Controllers.Compute.GalleryController
     public class GalleryImageHandler : IGalleryImagesController
     {
 
-        private readonly IGalleryImageService _galleryimageService;
+        private readonly IGalleryImageService _galleryImageService;
 
         public GalleryImageHandler(IGalleryImageService galleryImageService) {
-            _galleryimageService = galleryImageService;
+            _galleryImageService = galleryImageService;
         }
 
         public async Task<GalleryImage> CreateOrUpdateAsync(string subscriptionId, string resourceGroupName, string galleryName, string galleryImageName, string api_version, GalleryImage galleryImage)
@@ -25,7 +25,7 @@ namespace Emu.Controllers.Compute.GalleryController
 
             try
             {
-                var op = await _galleryimageService.UpsertGalleryImage(subscriptionId, resourceGroupName, galleryName, galleryImageName, galleryImage);
+                var op = await _galleryImageService.UpsertGalleryImage(subscriptionId, resourceGroupName, galleryName, galleryImageName, galleryImage);
 
                 // mark state as creating to emulate response even through status is Succeeded in storage;
                 switch (op)
@@ -60,7 +60,7 @@ namespace Emu.Controllers.Compute.GalleryController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
-            return _galleryimageService.GetGalleryImage(subscriptionId, resourceGroupName, galleryName, galleryImageName);
+            return _galleryImageService.GetGalleryImage(subscriptionId, resourceGroupName, galleryName, galleryImageName);
         }
 
         public Task<GalleryImageList> ListByGalleryAsync(string subscriptionId, string resourceGroupName, string galleryName, string api_version)

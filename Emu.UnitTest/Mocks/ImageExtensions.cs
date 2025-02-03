@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ImageController;
 
 namespace Emu.UnitTest.Mocks
 {
-    internal class ImageExtensions
+    internal static class ImageExtensions
     {
+        public static Image GetPostMock(this Image image)
+        {
+            return new Image
+            {
+                Location = "West US",
+                Properties = new ImageProperties
+                {
+                    StorageProfile = new ImageStorageProfile
+                    {
+                        OsDisk = new ImageOSDisk
+                        {
+                            OsType = ImageOSDiskOsType.Windows,
+                            BlobUri = "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+                            OsState = ImageOSDiskOsState.Generalized,
+                        },
+                        ZoneResilient = true,
+                    }
+                }
+            };
+        }
     }
 }

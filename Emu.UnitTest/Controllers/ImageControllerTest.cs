@@ -1,6 +1,7 @@
 ﻿using Emu.Controllers.Compute.ImageController;
 using Emu.Services.Common;
 using Emu.Services.Image;
+using Emu.UnitTest.Mocks;
 using Emu.UnitTest.TestUtils;
 using ImageController;
 
@@ -27,8 +28,7 @@ namespace Emu.UnitTest.Controllers
         {
             var imageName = "my-image";
 
-            var input = "{\"location\": \"West US\", \"properties\": {\"storageProfile\": {\"osDisk\": {\"osType\": \"Linux\", \"blobUri\": \"https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd\", \"osState\": \"Generalized\"}, \"zoneResilient\": true}}}";
-            var image = JsonHelper.DeserializeJson<Image>(input);
+            var image = new Image().GetPostMock();
 
             var act = await controller.CreateOrUpdateAsync(testResourceGroup1, imageName, image, apiVersion, testSubscriptionId1);
 
@@ -39,8 +39,7 @@ namespace Emu.UnitTest.Controllers
         public async Task TestGetImageAsync()
         {
             var imageName = "my-image";
-            var input = "{\"location\": \"West US\", \"properties\": {\"storageProfile\": {\"osDisk\": {\"osType\": \"Linux\", \"blobUri\": \"https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd\", \"osState\": \"Generalized\"}, \"zoneResilient\": true}}}";
-            var image = JsonHelper.DeserializeJson<Image>(input);
+            var image = new Image().GetPostMock();
             var exp = await controller.CreateOrUpdateAsync(testResourceGroup1, imageName, image, apiVersion, testSubscriptionId1);
             var act = await controller.GetAsync(testResourceGroup1, imageName, null, apiVersion, testSubscriptionId1);
             Assert.Equal(exp, act);
