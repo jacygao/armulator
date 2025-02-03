@@ -6,6 +6,7 @@ using Emu.Services.Common;
 using Emu.Services.Gallery;
 using Emu.Services.Image;
 using Emu.Services.VirtualMachine;
+using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 
@@ -19,10 +20,23 @@ builder.Services.AddHealthChecks();
 builder.Services.Configure<AzureStorageOptions>(builder.Configuration.GetSection("AzureStorage"));
 
 // Add AzureBlobStorageService to the DI container
-builder.Services.AddSingleton<IStorageService, AzureBlobStorageService>();
+builder.Services.AddSingleton<IStorageService>(provider =>
+{
+    var storageSettings = provider.GetRequiredService<IOptions<AzureStorageOptions>>();
+    if (storageSettings.Value.IsHeadless)
+    {
+        return new InMemoryStorageService();
+    }
+    else
+    {
+        return new AzureBlobStorageService(storageSettings);
+    }
+});
 
 // Add Domain Services
 builder.Services.AddSingleton<IGalleryService, GalleryService>();
+builder.Services.AddSingleton<IGalleryImageService, GalleryImageService>();
+builder.Services.AddSingleton<IGalleryImageVersionService, GalleryImageVersionService>();
 builder.Services.AddSingleton<IImageService, ImageService>();
 builder.Services.AddSingleton<IVirtualMachineService, VirtualMachineService>();
 

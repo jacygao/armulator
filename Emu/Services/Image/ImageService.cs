@@ -7,11 +7,12 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Emu.Services.Image
 {
-    public class ImageService : IImageService
+    public class ImageService : ServiceBase<ImageController.Image>, IImageService
     {
         private readonly IStorageService _storage;
         private readonly string containerName = "images";
-        public ImageService(IStorageService stroageService) {
+
+        public ImageService(IStorageService stroageService) : base(stroageService) {
             _storage = stroageService;
         }
 
@@ -21,10 +22,7 @@ namespace Emu.Services.Image
             ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
             ArgumentNullException.ThrowIfNull(image, nameof(image));
 
-            // Serialize the Image object to JSON
-            var json = JsonSerializer.Serialize(image);
-            using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
-            await _storage.UploadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json", stream);
+            await CreateAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json", image);
         }
 
         async Task<ImageController.Image> IImageService.GetImageAsync(string subscriptionId, string resourceGroup, string filename)
@@ -32,26 +30,7 @@ namespace Emu.Services.Image
             // Input Validation
             ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
 
-            // Download Image Metadata
-            try
-            {
-                var stream = await _storage.DownloadFileAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json");
-                using (var reader = new StreamReader(stream))
-                {
-                    var json = await reader.ReadToEndAsync();
-                    var image = JsonSerializer.Deserialize<ImageController.Image>(json);
-
-                    if (image != null) {
-                        return image;
-                    }
-
-                    throw new ResourceNotFoundException($"image {filename} does not exist");
-                }
-
-            } catch
-            {
-                throw;
-            }
+            return await GetAsync(containerName, $"{subscriptionId}/{resourceGroup}/{filename}.json");
         }
 
         async Task<List<ImageController.Image>> IImageService.ListImagesAsync(string subscriptionId)

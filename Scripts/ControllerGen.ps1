@@ -1,5 +1,5 @@
 # Prompt user for paths
-$openApiSpecPath = "./OpenApi/Specs"
+$openApiSpecPath = "./OpenApi/Specs/Network"
 $outputPath = "./Emu/Controllers/"
 
 # Check if NSwag is installed

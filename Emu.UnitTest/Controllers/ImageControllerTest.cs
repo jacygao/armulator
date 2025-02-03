@@ -13,7 +13,7 @@ namespace Emu.UnitTest.Controllers
         private readonly string testResourceGroup1;
         private static readonly string apiVersion = "1";
 
-        protected ImageControllerTest()
+        public ImageControllerTest()
         {
             // Do "global" initialization here; Called before every test method.
             var service = new ImageService(new InMemoryStorageService());

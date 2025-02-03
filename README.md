@@ -6,27 +6,42 @@
 
 ## Supported APIs
 	- Images
-		Create Or Update
-		Get
-		List
+		[X] Create Or Update
+		[X] Get
+		[X] List
 	- Galleries
-		- Create Or Update Gallery
-		- Get Gallery
+		[X] Create Or Update Gallery
+		[X] Get Gallery
 	- Gallery Images
-		- Create Or Update Gallery Image
-		- Get Gallery Image
+		[X] Create Or Update Gallery Image
+		[X] Get Gallery Image
 	- Gallery Image Versions
-		- Create Or Update Gallery Image Version
-		- Get Gallery Image Version
-		- Get Gallery Image Versions
+		[X] Create Or Update Gallery Image Version
+		[X] Get Gallery Image Version
+		[] List Gallery Image Versions
 	- Virtual Machines
-		Create Or Update
-		Start
-		Power Off
-		Deallocate (Hibernate)
-		Get Virtual Machine
+		[] Create Or Update
+		[] Start
+		[] Power Off
+		[] Deallocate (Hibernate)
+		[] Get Virtual Machine
 	- NetWork Interfaces
-		- Create a Virtual Network
-		- Create a Public IP Address
-		- Create a Network Interface
+		[] Create a Virtual Network
+		[] Create a Public IP Address
+		[] Create a Network Interface
 	- Disks
+		[] Create Or Update a Disk
+		[] Get a Disk
+
+## Todos
+	- NSwag
+		- Implement custom generation logic to reduce manual corrections
+		- Generated Controllers should return IActionResult to support more status codes
+	- Service
+		- Create a base service class to reduce boilplate code
+	- API
+		- Support more error scenarios
+	- UX
+		- Scala UI
+	- Documentation
+		- github pages
