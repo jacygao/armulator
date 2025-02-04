@@ -21,7 +21,7 @@ namespace Emu.Controllers.Compute.GalleryController
             {
                 gallery.Properties.Identifier = new GalleryIdentifier
                 {
-                    UniqueName = $"{subscriptionId}-{galleryName.ToUpper()}"
+                    UniqueName = $"{subscriptionId}-{galleryName}"
                 };
             } else
             {
@@ -38,7 +38,12 @@ namespace Emu.Controllers.Compute.GalleryController
 
             gallery.Name = galleryName;
             gallery.Type = $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeGallery}";
-            gallery.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeGallery, galleryName);
+            gallery.Id = ParameterHelper.GetComputeResourceId(
+                subscriptionId, 
+                resourceGroupName, 
+                ParameterHelper.ResourceCategoryCompute, 
+                ParameterHelper.ResourceTypeGallery, 
+                galleryName);
 
             var op = await _galleryService.UpsertGallery(subscriptionId, resourceGroupName, galleryName, gallery);
 

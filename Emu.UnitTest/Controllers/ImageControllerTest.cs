@@ -2,7 +2,6 @@
 using Emu.Services.Common;
 using Emu.Services.Image;
 using Emu.UnitTest.Mocks;
-using Emu.UnitTest.TestUtils;
 using ImageController;
 
 namespace Emu.UnitTest.Controllers
@@ -32,17 +31,20 @@ namespace Emu.UnitTest.Controllers
 
             var act = await controller.CreateOrUpdateAsync(testResourceGroup1, imageName, image, apiVersion, testSubscriptionId1);
 
-            Assert.Equal(image, act);
+            Assert.Equivalent(image, act);
         }
 
         [Fact]
         public async Task TestGetImageAsync()
         {
             var imageName = "my-image";
+
             var image = new Image().GetPostMock();
+
             var exp = await controller.CreateOrUpdateAsync(testResourceGroup1, imageName, image, apiVersion, testSubscriptionId1);
             var act = await controller.GetAsync(testResourceGroup1, imageName, null, apiVersion, testSubscriptionId1);
-            Assert.Equal(exp, act);
+
+            Assert.Equivalent(exp, act);
         }
     }
 }
