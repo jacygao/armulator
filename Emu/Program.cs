@@ -1,10 +1,12 @@
 using Emu.Controllers.Compute.GalleryController;
 using Emu.Controllers.Compute.ImageController;
 using Emu.Controllers.Compute.VirtualMachineController;
+using Emu.Controllers.Network.NetworkInterfaceController;
 using Emu.Middlewares;
 using Emu.Services.Common;
 using Emu.Services.Gallery;
 using Emu.Services.Image;
+using Emu.Services.NetworkInterface;
 using Emu.Services.VirtualMachine;
 using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
@@ -39,6 +41,8 @@ builder.Services.AddSingleton<IGalleryImageService, GalleryImageService>();
 builder.Services.AddSingleton<IGalleryImageVersionService, GalleryImageVersionService>();
 builder.Services.AddSingleton<IImageService, ImageService>();
 builder.Services.AddSingleton<IVirtualMachineService, VirtualMachineService>();
+builder.Services.AddSingleton<INetWorkInterfaceService, NetworkInterfaceService>();
+
 
 builder.Services.AddScoped<GalleryController.IGalleriesController, GalleryHandler>();
 builder.Services.AddScoped<GalleryController.IGalleryImagesController, GalleryImageHandler>();
@@ -46,6 +50,8 @@ builder.Services.AddScoped<GalleryController.IGalleryImageVersionsController, Ga
 
 builder.Services.AddScoped<ImageController.IImagesController, ImageHandler>();
 builder.Services.AddScoped<VirtualMachineController.IVirtualMachinesController, VirtualMachineHandler>();
+
+builder.Services.AddScoped<NetworkInterfaceController.INetworkInterfacesController, NetworkInterfaceHandler>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

@@ -1,87 +1,50 @@
 namespace Emu.Services.VirtualMachine
 {
-    using Emu.Common.RestApi;
     using Emu.Services.Common;
-    using System.Text.Json;
     using System.Threading.Tasks;
     using VirtualMachineController;
 
-    public class VirtualMachineService : IVirtualMachineService
+    public class VirtualMachineService(IStorageService storageService) : ServiceBase<VirtualMachine>(storageService), IVirtualMachineService
     {
-		private readonly IStorageService _storage;
-		private readonly string containerName = "vms";
 
-		public VirtualMachineService(IStorageService storageService)
-        {
-            _storage = storageService;
-        } 
-
-        public async Task<VirtualMachine> CreateOrUpdateAsync(string resourceGroup, string vmName, VirtualMachine parameters)
+        public async Task<OperationType> CreateOrUpdateAsync(string subscriptionId, string resourceGroup, string vmName, VirtualMachine parameters)
         {
 			// Input Validation
 			ArgumentException.ThrowIfNullOrEmpty(vmName, nameof(vmName));
 			ArgumentNullException.ThrowIfNull(parameters, nameof(parameters));
 
-			// Serialize the Image object to JSON
-			var json = JsonSerializer.Serialize(parameters);
-			using (var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json)))
-			{
-				await _storage.UploadFileAsync($"{containerName}", $"{vmName}.json", stream);
-
-			}
-
-            return parameters;
-
+            return await CreateAsync(ServiceConstants.VirtualMachineContainerName, $"{subscriptionId}/{resourceGroup}/{vmName}.json", parameters);
 		}
 
-        public Task DeallocateAsync(string resourceGroupName, string vmName)
+        public Task DeallocateAsync(string subscriptionId, string resourceGroupName, string vmName)
         {
             throw new NotImplementedException();
         }
 
-        public Task GeneralizeAsync(string resourceGroupName, string vmName)
+        public Task GeneralizeAsync(string subscriptionId, string resourceGroupName, string vmName)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<VirtualMachine> GetAsync(string resourceGroupName, string vmName)
+        public async Task<VirtualMachine> GetAsync(string subscriptionId, string resourceGroupName, string vmName)
         {
             // Input Validation
             ArgumentException.ThrowIfNullOrEmpty(vmName, nameof(vmName));
 
-            // Download vm Metadata
-            try
-            {
-                var stream = await _storage.DownloadFileAsync(containerName, $"{vmName}.json");
-                using var reader = new StreamReader(stream);
-                var json = await reader.ReadToEndAsync();
-                var vm = JsonSerializer.Deserialize<VirtualMachine>(json);
-
-                if (vm != null)
-                {
-                    return vm;
-                }
-
-                throw new ResourceNotFoundException($"image {vmName} does not exist");
-
-            }
-            catch
-            {
-                throw;
-            }
+            return await GetAsync(ServiceConstants.VirtualMachineContainerName, $"{subscriptionId}/{resourceGroupName}/{vmName}.json");
         }
 
-        public Task PowerOffAsync(string resourceGroupName, string vmName)
+        public Task PowerOffAsync(string subscriptionId, string resourceGroupName, string vmName)
         {
             throw new NotImplementedException();
         }
 
-        public Task RunCommandAsync(string resourceGroupName, string vmName, string commandId, string script)
+        public Task RunCommandAsync(string subscriptionId, string resourceGroupName, string vmName, string commandId, string script)
         {
             throw new NotImplementedException();
         }
 
-        public Task StartAsync(string resourceGroupName, string vmName)
+        public Task StartAsync(string subscriptionId, string resourceGroupName, string vmName)
         {
             throw new NotImplementedException();
         }

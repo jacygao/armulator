@@ -13,16 +13,24 @@ namespace Emu.Services
             _storageService= storageService;
         }
 
-        protected async Task CreateAsync(string containerName, string filename, T item)
+        protected async Task<OperationType> CreateAsync(string containerName, string filename, T item)
         {
             // Input Validation
             ArgumentException.ThrowIfNullOrEmpty(filename, nameof(filename));
             ArgumentNullException.ThrowIfNull(item, nameof(item));
 
+            var op = OperationType.Create;
+            if (await FileExists(containerName, filename))
+            {
+                op = OperationType.Update;
+            }
+
             // Serialize the item to JSON
             var json = JsonSerializer.Serialize(item);
             using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
             await _storageService.UploadFileAsync(containerName, filename, stream);
+
+            return op;
         }
 
         protected async Task<T> GetAsync(string containerName, string filename)
