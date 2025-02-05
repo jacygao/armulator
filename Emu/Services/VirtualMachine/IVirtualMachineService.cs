@@ -4,7 +4,7 @@ namespace Emu.Services.VirtualMachine
 
     public interface IVirtualMachineService
     {
-        Task<OperationType> CreateOrUpdateAsync(string subscriptionId, string resourceGroupName, string vmName, VirtualMachine parameters);
+        Task<VirtualMachine> CreateOrUpdateAsync(string subscriptionId, string resourceGroupName, string vmName, VirtualMachine parameters);
         Task PowerOffAsync(string subscriptionId, string resourceGroupName, string vmName);
         Task GeneralizeAsync(string subscriptionId, string resourceGroupName, string vmName);
         Task DeallocateAsync(string subscriptionId, string resourceGroupName, string vmName);

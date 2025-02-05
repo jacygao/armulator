@@ -7,13 +7,15 @@ namespace Emu.Services.VirtualMachine
     public class VirtualMachineService(IStorageService storageService) : ServiceBase<VirtualMachine>(storageService), IVirtualMachineService
     {
 
-        public async Task<OperationType> CreateOrUpdateAsync(string subscriptionId, string resourceGroup, string vmName, VirtualMachine parameters)
+        public async Task<VirtualMachine> CreateOrUpdateAsync(string subscriptionId, string resourceGroup, string vmName, VirtualMachine parameters)
         {
 			// Input Validation
 			ArgumentException.ThrowIfNullOrEmpty(vmName, nameof(vmName));
 			ArgumentNullException.ThrowIfNull(parameters, nameof(parameters));
 
-            return await CreateAsync(ServiceConstants.VirtualMachineContainerName, $"{subscriptionId}/{resourceGroup}/{vmName}.json", parameters);
+            await CreateAsync(ServiceConstants.VirtualMachineContainerName, $"{subscriptionId}/{resourceGroup}/{vmName}.json", parameters);
+
+            return parameters;
 		}
 
         public Task DeallocateAsync(string subscriptionId, string resourceGroupName, string vmName)

@@ -6,7 +6,7 @@ namespace Emu.UnitTest.Mocks
     internal static class VirtualMachineExtensions
     {
        
-        public static VirtualMachine CreateFromGalleryImageMock(this VirtualMachine _, string imageId, string networkInterfaceId)
+        public static VirtualMachine CreateFromGeneralizedSharedImageMock(this VirtualMachine _, string imageId, string networkInterfaceId)
         {
             return new VirtualMachine()
             {

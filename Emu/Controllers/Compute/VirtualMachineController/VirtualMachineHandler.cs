@@ -40,7 +40,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
             parameters.ValidateAsInput();
 
             // enrich
-            parameters.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, ParameterHelper.ResourceTypeVirtualMachine, vmName);
+            parameters.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeVirtualMachine}", vmName);
             parameters.Type = "Microsoft.Compute/virtualMachines";
             parameters.Name = vmName;
 
@@ -71,7 +71,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
             }
 
 
-            var resp = await _virtualMachineService.CreateOrUpdateAsync(resourceGroupName, vmName, parameters);
+            var resp = await _virtualMachineService.CreateOrUpdateAsync(subscriptionId, resourceGroupName, vmName, parameters);
 
             return resp.Mask();
         }
@@ -97,7 +97,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
 
-            var resp = await _virtualMachineService.GetAsync(resourceGroupName, vmName);
+            var resp = await _virtualMachineService.GetAsync(subscriptionId, resourceGroupName, vmName);
 
             return resp.Mask();
         }
