@@ -1,4 +1,5 @@
-﻿using Emu.Controllers.Compute.GalleryController;
+﻿using Emu.Common.RestApi;
+using Emu.Controllers.Compute.GalleryController;
 using Emu.Controllers.Compute.VirtualMachineController;
 using Emu.Controllers.Network.NetworkInterfaceController;
 using Emu.Services.Common;
@@ -7,6 +8,7 @@ using Emu.Services.NetworkInterface;
 using Emu.Services.VirtualMachine;
 using Emu.UnitTest.Mocks;
 using GalleryController;
+using VirtualMachineController;
 using VirtualNetworkController;
 namespace Emu.UnitTest.Controllers
 {
@@ -83,6 +85,23 @@ namespace Emu.UnitTest.Controllers
             exp.Name = "my-vm";
             exp.Type = "Microsoft.Compute/virtualMachines";
             Assert.Equivalent(exp, act);
+        }
+
+        [Fact]
+        public async Task TestCreateOrUpdateVirtualMachineReturnsMissingLocationExceptionAsync() {
+            var vm = new VirtualMachineController.VirtualMachine();
+            
+            var ex = await Assert.ThrowsAsync<InvalidInputException>(async () => 
+                await vmController.CreateOrUpdateAsync(
+                    testResourceGroup1,
+                    "my-vm",
+                    vm,
+                    apiVersion,
+                    testSubscriptionId1,
+                    null, null)
+            );
+
+            Assert.Equivalent("The location property is required for this definition", ex.Message);
         }
     }
 }
