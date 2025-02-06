@@ -19,7 +19,7 @@ PUT https://localhost:8000/subscriptions/{subscription-id}/resourceGroups/myReso
 
 #### 2. Create a simple Gallery Image
 ```
-PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName?api-version=2024-03-03
+PUT https://localhost:8000/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName?api-version=2024-03-03
 
 {
   "location": "West US",
@@ -139,7 +139,7 @@ You have just successfully created your first Virtual Machine!
 		[] Deallocate (Hibernate)
 		[] Get Virtual Machine
 	- NetWork Interfaces
-		[] Create a Virtual Network
+		[x] Create a Virtual Network
 		[] Create a Public IP Address
 		[] Create a Network Interface
 	- Disks

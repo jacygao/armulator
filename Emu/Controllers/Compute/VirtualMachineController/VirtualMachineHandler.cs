@@ -47,30 +47,6 @@ namespace Emu.Controllers.Compute.VirtualMachineController
             // TODO: implement Provision State Transitions
             parameters.Properties.ProvisioningState = VirtualMachineConstants.ProvisioningStateCreating;
 
-            // OS Profile
-            if (parameters.Properties.OsProfile.WindowsConfiguration == null)
-            {
-                parameters.Properties.OsProfile.WindowsConfiguration = new WindowsConfiguration
-                {
-                    ProvisionVMAgent = true,
-                    EnableAutomaticUpdates = true,
-                };
-            }
-
-            if (parameters.Properties.OsProfile.Secrets == null)
-            {
-                parameters.Properties.OsProfile.Secrets = [];
-            }
-
-            // Network Profile
-
-            // Storage Profile
-            if (parameters.Properties.StorageProfile.DataDisks == null)
-            {
-                parameters.Properties.StorageProfile.DataDisks = [];
-            }
-
-
             var resp = await _virtualMachineService.CreateOrUpdateAsync(subscriptionId, resourceGroupName, vmName, parameters);
 
             return resp.Mask();
