@@ -2,6 +2,7 @@ using Emu.Common.Utils;
 using Emu.Common.Validators;
 using Emu.Services.Gallery;
 using GalleryController;
+using System.Net;
 
 namespace Emu.Controllers.Compute.GalleryController
 {

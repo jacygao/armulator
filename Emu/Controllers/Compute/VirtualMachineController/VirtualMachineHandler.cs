@@ -10,6 +10,7 @@ namespace Emu.Controllers.Compute.VirtualMachineController
     public class VirtualMachineHandler : IVirtualMachinesController
     {
         private readonly IVirtualMachineService _virtualMachineService;
+
         public VirtualMachineHandler(IVirtualMachineService virtualMachineService) { 
             _virtualMachineService = virtualMachineService;
         }

@@ -1,4 +1,6 @@
 ﻿using Emu.Common.RestApi;
+using System.Drawing;
+using VirtualMachineController;
 
 namespace Emu.Services.VirtualMachine.Extensions
 {
@@ -19,12 +21,22 @@ namespace Emu.Services.VirtualMachine.Extensions
 
             if (vm.Properties == null)
             {
-                throw new InvalidInputException(Constants.InvalidParameter.message, Constants.InvalidParameter.substatus);
+                throw new InvalidInputException(Constants.InvalidParameterMissingProperties.message, Constants.InvalidParameterMissingProperties.substatus);
             }
+
+            ValidateHardwareProfile(vm.Properties.HardwareProfile);
 
             if (vm.Properties.NetworkProfile == null)
             {
-                throw new InvalidInputException(Constants.InvalidParameter.message, Constants.InvalidParameter.substatus);
+                throw new InvalidInputException(Constants.InvalidParameterMissingProperties.message, Constants.InvalidParameterMissingProperties.substatus);
+            }
+        }
+
+        internal static void ValidateHardwareProfile(HardwareProfile hp)
+        {
+            if (hp.VmSize == null)
+            {
+                throw new InvalidParameterException(Constants.InvalidParameterVmSize.message, Constants.InvalidParameterVmSize.substatus);
             }
         }
     }

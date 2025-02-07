@@ -10,6 +10,9 @@ namespace Emu.Common.Utils
         public static readonly string ResourceTypeGallery = "galleries";
         public static readonly string ResourceTypeGalleryImage = "galleries/images";
         public static readonly string ResourceTypeVirtualMachine = "virtualMachines";
+        
+        public static readonly string ResourceTypeVirtualNetwork = "virtualNetworks";
+        public static readonly string ResourceTypeNetworkInterface = "networkInterfaces";
 
         public static string GetComputeResourceId(string subscriptionId, string resourceGroupName, string provider, params string[] additionalParams)
         {

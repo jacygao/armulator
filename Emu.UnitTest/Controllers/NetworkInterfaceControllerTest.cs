@@ -35,6 +35,8 @@ namespace Emu.UnitTest.Controllers
 
             var exp = new NetworkInterfaceController.NetworkInterface().GetNetworkInterfaceMock();
             exp.Properties.ProvisioningState = NetworkInterfaceController.ProvisioningState.Succeeded;
+            exp.Id = $"/subscriptions/{testSubscriptionId1}/resourceGroups/{testResourceGroup1}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}";
+            
             Assert.Equivalent(exp, act);
         }
 

@@ -139,9 +139,9 @@ You have just successfully created your first Virtual Machine!
 		[] Deallocate (Hibernate)
 		[] Get Virtual Machine
 	- NetWork Interfaces
-		[x] Create a Virtual Network
+		[] Create a Virtual Network
 		[] Create a Public IP Address
-		[] Create a Network Interface
+		[x] Create a Network Interface
 	- Disks
 		[] Create Or Update a Disk
 		[] Get a Disk
@@ -151,9 +151,10 @@ You have just successfully created your first Virtual Machine!
 		- Implement custom generation logic to reduce manual corrections
 		- Generated Controllers should return IActionResult to support more status codes
 	- Service
-		- Create a base service class to reduce boilplate code
+		[x] Create a base service class to reduce boilplate code
 	- API
 		- Support more error scenarios
+        - Using ApiError object for error response instead of the handwritten response
 	- UX
 		- Scala UI
 	- Documentation

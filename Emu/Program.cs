@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHealthChecks();
 
+builder.Services.AddHttpContextAccessor();
+
 // Add Azure Storage
 // Bind the AzureStorage section in appsettings.json to the AzureStorageOptions class
 builder.Services.Configure<AzureStorageOptions>(builder.Configuration.GetSection("AzureStorage"));
@@ -71,6 +73,7 @@ app.MapHealthChecks("/healthz");
 
 // Add Custom Middlewares
 app.UseMiddleware<CommonExceptionHandlerMiddleware>();
+app.UseMiddleware<HttpResponseHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
