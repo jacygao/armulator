@@ -8,8 +8,7 @@ using Emu.Services.NetworkInterface;
 using Emu.Services.VirtualMachine;
 using Emu.UnitTest.Mocks;
 using GalleryController;
-using VirtualMachineController;
-using VirtualNetworkController;
+using Microsoft.AspNetCore.Http;
 namespace Emu.UnitTest.Controllers
 {
     public class VirtualMachineControllerTest
