@@ -32,7 +32,7 @@ foreach ($dir in $specDirectories) {
         $controllerName = $subFolderName + ".cs"
 
         $outputFilePath = Join-Path $outputPath $foldername
-        $outputFilePath = [System.IO.Path]::GetFullPath($outputFilePath)
+        Write-Host "output $outputFilePath"
 
         # Create folder if not already existing
         if (-not (Test-Path -Path $outputFilePath -PathType Container)) {
