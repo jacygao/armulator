@@ -60,30 +60,21 @@ namespace Emu.UnitTest.Controllers
                 apiVersion,
                 testSubscriptionId1);
 
-            var virtualMachine = new VirtualMachineController.VirtualMachine().CreateFromGeneralizedSharedImageMock(galleryImage.Id, networkInterface.Id);
+            var virtualMachine = new VirtualMachineController.VirtualMachine().CreateFromGeneralizedSharedImageMock(
+                testSubscriptionId1, 
+                testResourceGroup1, 
+                galleryImage.Id, 
+                networkInterface.Id);
 
             var act = await vmController.CreateOrUpdateAsync(
                 testResourceGroup1, 
                 "my-vm", 
-                virtualMachine, 
+                virtualMachine.req, 
                 apiVersion, 
                 testSubscriptionId1,
                 null, null);
 
-            var exp = new VirtualMachineController.VirtualMachine().CreateFromGeneralizedSharedImageMock(galleryImage.Id, networkInterface.Id);
-            exp.Properties.StorageProfile.DataDisks = [];
-            exp.Properties.OsProfile.AdminPassword = null; // masked
-            exp.Properties.OsProfile.WindowsConfiguration = new VirtualMachineController.WindowsConfiguration()
-            {
-                ProvisionVMAgent = true,
-                EnableAutomaticUpdates = true
-            };
-            exp.Properties.OsProfile.Secrets = [];
-            exp.Properties.ProvisioningState = "Creating";
-            exp.Id = $"/subscriptions/{testSubscriptionId1}/resourceGroups/{testResourceGroup1}/providers/Microsoft.Compute/virtualMachines/my-vm";
-            exp.Name = "my-vm";
-            exp.Type = "Microsoft.Compute/virtualMachines";
-            Assert.Equivalent(exp, act);
+            Assert.Equivalent(virtualMachine.resp, act);
         }
 
         [Fact]

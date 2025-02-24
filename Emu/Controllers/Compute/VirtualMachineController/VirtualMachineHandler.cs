@@ -1,9 +1,8 @@
 using Emu.Common.Utils;
 using Emu.Common.Validators;
 using Emu.Services.VirtualMachine;
+using Emu.Services.VirtualMachine.Extensions;
 using VirtualMachineController;
-
-using static Emu.Services.VirtualMachine.Extensions.VirtualMachineExtensions;
 
 namespace Emu.Controllers.Compute.VirtualMachineController
 {
@@ -38,15 +37,6 @@ namespace Emu.Controllers.Compute.VirtualMachineController
         public async Task<VirtualMachine> CreateOrUpdateAsync(string resourceGroupName, string vmName, VirtualMachine parameters, string api_version, string subscriptionId, string if_Match, string if_None_Match)
         {
             CommonValidators.Validate(subscriptionId, resourceGroupName);
-            parameters.ValidateAsInput();
-
-            // enrich
-            parameters.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroupName, $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeVirtualMachine}", vmName);
-            parameters.Type = "Microsoft.Compute/virtualMachines";
-            parameters.Name = vmName;
-
-            // TODO: implement Provision State Transitions
-            parameters.Properties.ProvisioningState = VirtualMachineConstants.ProvisioningStateCreating;
 
             var resp = await _virtualMachineService.CreateOrUpdateAsync(subscriptionId, resourceGroupName, vmName, parameters);
 

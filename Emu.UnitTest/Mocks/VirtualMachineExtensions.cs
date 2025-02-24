@@ -6,9 +6,16 @@ namespace Emu.UnitTest.Mocks
     internal static class VirtualMachineExtensions
     {
        
-        public static VirtualMachine CreateFromGeneralizedSharedImageMock(this VirtualMachine _, string imageId, string networkInterfaceId)
+        public static (VirtualMachine req, VirtualMachine resp) CreateFromGeneralizedSharedImageMock(
+            this VirtualMachine _, 
+            string subscriptionId,
+            string resourceGroupName,
+            string imageId, 
+            string networkInterfaceId)
         {
-            return new VirtualMachine()
+            (VirtualMachine req, VirtualMachine resp) res = new();
+
+            res.req = new VirtualMachine()
             {
                 Location = "westus",
                 Properties = new VirtualMachineProperties()
@@ -55,6 +62,22 @@ namespace Emu.UnitTest.Mocks
                     }
                 }
             };
+
+            res.resp = res.req;
+            res.resp.Properties.StorageProfile.DataDisks = [];
+            res.resp.Properties.OsProfile.AdminPassword = null; // masked
+            res.resp.Properties.OsProfile.WindowsConfiguration = new WindowsConfiguration()
+            {
+                ProvisionVMAgent = true,
+                EnableAutomaticUpdates = true
+            };
+            res.resp.Properties.OsProfile.Secrets = [];
+            res.resp.Properties.ProvisioningState = "Creating";
+            res.resp.Id = $"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/my-vm";
+            res.resp.Name = "my-vm";
+            res.resp.Type = "Microsoft.Compute/virtualMachines";
+
+            return res;
         }
     }
 }

@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\IpProvider\" />
-    <Folder Include="Domain\OsProfile\" />
+    <Folder Include="Internal\IpProvider\" />
+    <Folder Include="Internal\OsProfile\" />
   </ItemGroup>
 
 </Project>

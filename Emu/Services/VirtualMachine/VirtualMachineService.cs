@@ -1,6 +1,8 @@
 namespace Emu.Services.VirtualMachine
 {
+    using Emu.Common.Utils;
     using Emu.Services.Common;
+    using Emu.Services.VirtualMachine.Extensions;
     using System.Threading.Tasks;
     using VirtualMachineController;
 
@@ -13,15 +15,12 @@ namespace Emu.Services.VirtualMachine
 			ArgumentException.ThrowIfNullOrEmpty(vmName, nameof(vmName));
 			ArgumentNullException.ThrowIfNull(parameters, nameof(parameters));
 
+            parameters.ValidateAsInput();
+
             // Storage Profile
             if (!await FileExists(ServiceConstants.GalleryImageContainerName, parameters.Properties.StorageProfile.ImageReference.Id))
             {
                 // TODO: throw error
-            }
-
-            if (parameters.Properties.StorageProfile.DataDisks == null)
-            {
-                parameters.Properties.StorageProfile.DataDisks = [];
             }
 
             // Network Profile
@@ -33,20 +32,14 @@ namespace Emu.Services.VirtualMachine
                 }
             }
 
-            // OS Profile
-            if (parameters.Properties.OsProfile.WindowsConfiguration == null)
-            {
-                parameters.Properties.OsProfile.WindowsConfiguration = new WindowsConfiguration
-                {
-                    ProvisionVMAgent = true,
-                    EnableAutomaticUpdates = true,
-                };
-            }
+            parameters.Id = ParameterHelper.GetComputeResourceId(subscriptionId, resourceGroup, $"{ParameterHelper.ResourceCategoryCompute}/{ParameterHelper.ResourceTypeVirtualMachine}", vmName);
+            parameters.Type = "Microsoft.Compute/virtualMachines";
+            parameters.Name = vmName;
 
-            if (parameters.Properties.OsProfile.Secrets == null)
-            {
-                parameters.Properties.OsProfile.Secrets = [];
-            }
+            // TODO: implement Provision State Transitions
+            parameters.Properties.ProvisioningState = VirtualMachineConstants.ProvisioningStateCreating;
+
+            parameters.Enrich();
 
             await CreateAsync(ServiceConstants.VirtualMachineContainerName, $"{subscriptionId}/{resourceGroup}/{vmName}.json", parameters);
 

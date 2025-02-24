@@ -30,6 +30,31 @@ namespace Emu.Services.VirtualMachine.Extensions
             {
                 throw new InvalidInputException(Constants.InvalidParameterMissingProperties.message, Constants.InvalidParameterMissingProperties.substatus);
             }
+
+        }
+
+        // Enriches the input value before persisting data in the storage
+        public static void Enrich(this VirtualMachineController.VirtualMachine vm)
+        {
+            if (vm.Properties.StorageProfile.DataDisks == null)
+            {
+                vm.Properties.StorageProfile.DataDisks = [];
+            }
+
+            // OS Profile
+            if (vm.Properties.OsProfile.WindowsConfiguration == null)
+            {
+                vm.Properties.OsProfile.WindowsConfiguration = new WindowsConfiguration
+                {
+                    ProvisionVMAgent = true,
+                    EnableAutomaticUpdates = true,
+                };
+            }
+
+            if (vm.Properties.OsProfile.Secrets == null)
+            {
+                vm.Properties.OsProfile.Secrets = [];
+            }
         }
 
         internal static void ValidateHardwareProfile(HardwareProfile hp)
