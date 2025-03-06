@@ -133,11 +133,11 @@ You have just successfully created your first Virtual Machine!
 		[X] Get Gallery Image Version
 		[] List Gallery Image Versions
 	- Virtual Machines
-		[] Create Or Update
+		[x] Create Or Update
 		[] Start
 		[] Power Off
 		[] Deallocate (Hibernate)
-		[] Get Virtual Machine
+		[x] Get Virtual Machine
 	- NetWork Interfaces
 		[] Create a Virtual Network
 		[] Create a Public IP Address
