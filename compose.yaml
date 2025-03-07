@@ -17,7 +17,7 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_HTTPS_PORTS: 8001
     volumes:
-      - ./https:/https:ro
+      - ./.ssl:/https:ro
     depends_on:
       - azurite
     networks:
@@ -27,6 +27,9 @@ services:
   azurite:
     container_name: "azurite"
     image: "mcr.microsoft.com/azure-storage/azurite:latest"
+    volumes:
+      - "./.ssl/127.0.0.1.pem:/.ssl/127.0.0.1.pem"
+      - "./.ssl/127.0.0.1-key.pem:/.ssl/127.0.0.1-key.pem"
     ports:
       - "10000:10000"
       - "10001:10001"
@@ -35,5 +38,6 @@ services:
       arm-emulator:
         aliases:
           - "azurite"
+    command: "azurite --oauth basic --blobHost 0.0.0.0  --queueHost 0.0.0.0 --tableHost 0.0.0.0 --cert /.ssl/127.0.0.1.pem --key /.ssl/127.0.0.1-key.pem"
 networks:
   arm-emulator:
