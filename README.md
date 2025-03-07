@@ -2,6 +2,17 @@
 
 ## Getting Started
 
+Generate certificate and configure local machine:
+```
+dotnet dev-certs https -ep "$env:USERPROFILE\.aspnet\https\aspnetapp.pfx" -p password
+dotnet dev-certs https --trust
+```
+
+Start ARMulator via docker compose:
+```
+docker compose up
+```
+
 ### Create your first Virtual Machine in 5 mins
 
 #### 1. Create a new Gallery

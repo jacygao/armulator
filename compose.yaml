@@ -1,12 +1,23 @@
-name: emuarm
+name: armulator
 services:
   emulator:
-    container_name: "arm-emulator"
-    image: "jacygao/emuarm:latest"
+    container_name: "armulator"
+    build:
+      context: ./Emu
+      dockerfile: Dockerfile
     ports:
       - "8000:8080"
+      - "8001:443"
     environment:
       METADATA_SERVER: azurite
+      AzureStorage.IsHeadless: false
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+;http://+
+      ASPNETCORE_Kestrel__Certificates__Default__Password: password
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_HTTPS_PORTS: 8001
+    volumes:
+      - ~/.aspnet/https:/https:ro
     depends_on:
       - azurite
     networks:
