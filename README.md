@@ -4,7 +4,7 @@
 
 Generate certificate and configure local machine:
 ```
-dotnet dev-certs https -ep ".\.ssl\aspnetapp.pfx" -p password
+dotnet dev-certs https -ep ".\.ssl\armulator.pfx" -p password
 dotnet dev-certs https --trust
 ```
 
